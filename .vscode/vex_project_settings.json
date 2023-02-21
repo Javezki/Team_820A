@@ -1,0 +1,18 @@
+{
+	"project": {
+		"name": "Team_820A",
+		"slot": 1,
+		"description": "",
+		"platform": "V5",
+		"creationDate": "Tue, 21 Feb 2023 21:28:06 GMT",
+		"language": "cpp",
+		"sdkVersion": "V5_20220726_10_00_00",
+		"cpp": {
+			"includePath": []
+		}
+	},
+	"extension": {
+		"version": "0.3.0",
+		"json": 1
+	}
+}
