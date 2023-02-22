@@ -38,6 +38,8 @@ motor_group Shooting = motor_group(ShootingMotorA, ShootingMotorB);
 
 motor Tail = motor(PORT5, ratio18_1, false);
 
+competition Competition;
+
 /*vex-vision-config:begin*/
 vision::signature VisionSensor__DISC = vision::signature (1, 2185, 3213, 2699,-5301, -5083, -5192,3.9, 0);
 vision VisionSensor = vision (PORT1, 50, VisionSensor__DISC);
@@ -63,7 +65,7 @@ bool RemoteControlCodeEnabled = true;
 // Include the V5 Library
 #include "vex.h"
 // Allows for easier use of the VEX Library
-using namespace vex;
+using namespace vex; 
 // Conversion rates
 double CM_TO_INCH = 2.54;
 double INCH_TO_CM = 0.393;
@@ -73,7 +75,7 @@ double xPosition = 0;
 double yPosition = 0;
 
 // Mathemtical Constants
-double PI = 3.14159265;
+double PI = 3.14159265; 
 
 // Robot Constants
 double WHEEL_RADIUSCM = 5.08;
@@ -81,11 +83,14 @@ double WHEEL_RADIUSIN = 5.08 * CM_TO_INCH;
 
 void threadAlive();
 void initControls();
+void initModes();
 
 
 int main() {
+  initModes();
   initControls();
   threadAlive();
+  return 0;
 }
 
 
@@ -107,6 +112,13 @@ int main() {
 * Automatic controls of the robot, for the autonomous period
 */
 
+class AutonomousPeriod {
+  public:
+  static void onCompetition() {
+
+  }
+};
+
 class RobotAuto {
   public:
   static void autoTail() {
@@ -123,6 +135,16 @@ class RobotAuto {
     * Reset tail position
     */
   }
+  /** 
+  * Get the disc distance based off of colour camera sensor
+  * Formula was created based off of Experimental values in logger pro
+  *
+  */
+  public:
+  double getDiscDistance() {
+    int px = VisionSensor.largestObject.width;
+    return 0;
+  } 
 };
 
 
@@ -226,6 +248,12 @@ void initControls() {
   Controller1.ButtonR1.pressed(controls.manualShoot);
   Controller1.ButtonL1.pressed(controls.manualTail);
   Controller1.ButtonL2.pressed(controls.manualTail);
+}
+
+void initModes() {
+  AutonomousPeriod ap;
+  Competition.autonomous(ap.onCompetition);
+  Competition.drivercontrol(threadAlive);
 }
 
 /** 
